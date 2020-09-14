@@ -17,9 +17,17 @@ class Game(Canvas):
         self.colors = {
             "bg": "#BBADA0",
             "empty": "#CFC1B5",
-            "2": "#EDE4D7",
-            "4": "#EDE4D7",
-            "8": "#EFB27B",
+            2: "#EDE4D7",
+            4: "#eddfc4",
+            8: "#f4b17a",
+            16: "#f79662",
+            32: "#f67d62",
+            64: "#f65e39",
+            128: "#edce73",
+            256: "#edca64",
+            512: "#ebc651",
+            1024: "#eec843",
+            2048: "#ecc232"
         }
 
         self.numbers = [[0 for i in range(4)] for i in range(4)]
@@ -60,7 +68,7 @@ class Game(Canvas):
         while fl:
             a = random.randint(0, 3)
             b = random.randint(0, 3)
-            c = 8
+            c = 2
             if self.numbers[a][b] == 0:
                 self.numbers[a][b] = c
                 fl = False
@@ -72,8 +80,10 @@ class Game(Canvas):
             for j in range(4):
                 if self.numbers[i][j] != 0:
                     a = self.positions[i][j]
-                    self.create_rectangle(a[0], a[1], a[2], a[3], fill=self.colors[str(
-                        self.numbers[i][j])], outline=self.colors[str(self.numbers[i][j])])
+                    self.create_rectangle(a[0], a[1], a[2], a[3], fill=self.colors[
+                        self.numbers[i][j]], outline=self.colors[self.numbers[i][j]])
+                    self.create_text(a[0]+50,a[1]+50,text=str(self.numbers[i][j]), fill='black',font=('Clear Sans', 3
+                    0))
                 else:
                     a = self.positions[i][j]
                     self.create_rectangle(a[0], a[1], a[2], a[3], fill=self.colors['empty'],
@@ -85,35 +95,46 @@ class Game(Canvas):
                 for j in range(4):
                     if self.numbers[i][j] != 0:
                         for x in range(i,0,-1):
-                            self.numbers[x][j], self.numbers[x - 1][j] = 0 , self.numbers[x][j]
+                            if self.numbers[x-1][j] == 0:
+                                self.numbers[x][j], self.numbers[x - 1][j] = 0 , self.numbers[x][j]
+                            elif self.numbers[x-1][j] == self.numbers[x][j]:
+                                self.numbers[x][j], self.numbers[x - 1][j] = 0 , 2*self.numbers[x][j]
 
         if d == "a":
             for i in range(4):
                 for j in range(4):
                     if self.numbers[i][j] != 0:
                         for x in range(j,0,-1):
-                            self.numbers[i][x], self.numbers[i][x-1] = (
-                                0,
-                                self.numbers[i][x],
-                            )
+                            if self.numbers[i][x-1] == 0:
+                                self.numbers[i][x], self.numbers[i][x-1] = (
+                                    0, self.numbers[i][x])
+                            elif self.numbers[i][x-1] == self.numbers[i][x]:
+                                self.numbers[i][x], self.numbers[i][x-1] = 0 , 2*self.numbers[i][x-1]
+
         if d == "s":
-            for i in range(4):
+            for i in range(3,-1,-1):
                 for j in range(4):
                     if self.numbers[i][j] != 0:
                         for x in range(i,3):
-                            self.numbers[x][j], self.numbers[x + 1][j] = (
-                                0,
-                                self.numbers[x][j],
-                            )
+                            if self.numbers[x + 1][j] == 0:
+                                self.numbers[x][j], self.numbers[x + 1][j] = (
+                                    0, self.numbers[x][j])
+                            elif self.numbers[x + 1][j] == self.numbers[x][j]:
+                                self.numbers[x][j], self.numbers[x + 1][j] = (
+                                    0, 2*self.numbers[x][j])
+
         if d == "d":
             for i in range(4):
-                for j in range(4):
+                for j in range(3,-1,-1):
                     if self.numbers[i][j] != 0:
                         for x in range(j,3):
-                            self.numbers[i][x], self.numbers[i][x+1] = (
-                                0,
-                                self.numbers[i][x],
-                            )
+                            if self.numbers[i][x+1] == 0:
+                                self.numbers[i][x], self.numbers[i][x+1] = (
+                                    0, self.numbers[i][x])
+                            elif self.numbers[i][x+1] == self.numbers[i][x]:
+                                self.numbers[i][x], self.numbers[i][x+1] = (
+                                    0, 2*self.numbers[i][x])
+
         self.refresh()
         self.create_num()
 
