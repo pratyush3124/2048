@@ -82,8 +82,7 @@ class Game(Canvas):
                     a = self.positions[i][j]
                     self.create_rectangle(a[0], a[1], a[2], a[3], fill=self.colors[
                         self.numbers[i][j]], outline=self.colors[self.numbers[i][j]])
-                    self.create_text(a[0]+50,a[1]+50,text=str(self.numbers[i][j]), fill='black',font=('Clear Sans', 3
-                    0))
+                    self.create_text(a[0]+50,a[1]+50,text=str(self.numbers[i][j]), fill='black',font=('Clear Sans', 30))
                 else:
                     a = self.positions[i][j]
                     self.create_rectangle(a[0], a[1], a[2], a[3], fill=self.colors['empty'],
